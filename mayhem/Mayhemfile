@@ -1,0 +1,14 @@
+# Mayhem target: LnkParse Windows .lnk shortcut parser (Atheris/libFuzzer harness).
+# The cmd binary is the compiled ELF launcher that drives mayhem/fuzz_lnkfile.py; Atheris
+# instruments the `lnkfile` library so the run records coverage (edges).
+project: savantenvs/LnkParse
+target: lnkfile-parse
+
+cmds:
+  - cmd: /mayhem/lnkparse_fuzzer
+    libfuzzer: true
+
+# Seed corpus of representative .lnk shortcut blobs (file:// URIs per the Mayhemfile schema).
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/lnkfile-parse/testsuite
